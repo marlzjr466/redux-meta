@@ -53,40 +53,75 @@ $ yarn add redux-meta
 const reduxMeta = new ReduxMeta()
 ```
 
-Supported options and result fields for the `useBasicFetch` hook are listed below.
+#### Modules
 
-#### Options
+Modules can be an object or an array to register multiple modules at once. 
 
-`url`
+`metaModule`
 
-| Type | Default value |
-| --- | --- |
-| string | '' |
+| Type | Required | Description |
+| --- | --- | --- |
+| boolean | true | Redux meta module |
 
-If present, the request will be performed as soon as the component is mounted
+`name`
 
-Example:
+| Type | Required | Description |
+| --- | --- | --- |
+| string | true | Name of the module |
 
-```tsx
-const MyComponent: React.FC = () => {
-  const { data, error, loading } = useBasicFetch('https://api.icndb.com/jokes/random');
+`metaStates`
 
-  if (error) {
-    return <p>Error</p>;
+| Type | Required | Description |
+| --- | --- | --- |
+| object | true | States will be initialize here |
+
+`metaMutations`
+
+| Type | Required | Description |
+| --- | --- | --- |
+| object | true | Inside this are the functions that will mutate the states |
+
+`metaActions`
+
+| Type | Required | Description |
+| --- | --- | --- |
+| object | true | Inside this are the functions that will interact with metaMutations |
+
+Module example for user:
+
+```js
+{
+  metaModule: true,
+  name: 'user',
+
+  metaStates: {
+    name: '',
+    address: ''
+  },
+
+  metaMutations: {
+    SET_NAME: (state, { payload }) => {
+      state.name = payload
+    }
+  },
+
+  metaActions: {
+    getAUser ({ commit }, params) {
+      const name = 'John Doe'
+      
+      commit('SET_NAME', name)
+    }
   }
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  return (
-    <div className="App">
-      <h2>Chuck Norris Joke of the day</h2>
-      {data && data.value && <p>{data.value.joke}</p>}
-    </div>
-  );
-};
+}
 ```
+
+Supported class fucntions are listed below.
+
+#### Functions
+
+`registerModules`
+
+This will initialize the states, mutations and actions insdie the module to be easily use in different components.
 
 `delay`
 
