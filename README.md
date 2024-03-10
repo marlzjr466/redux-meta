@@ -49,8 +49,32 @@ $ yarn add redux-meta
 
 ### ReduxMeta
 
+Note: reduxMeta should be initialize once, you can initialize it globally
 ```js
+import { ReduxMeta } from 'redux-meta'
+
 const reduxMeta = new ReduxMeta()
+
+// or initialize globally
+// global.reduxMeta = new ReduxMeta()
+```
+
+### ReduxMetaProvider
+
+In your App.js, wrap your main view with ReduxMetaProvider to enable the registered modules.
+
+```js
+import { ReduxMetaProvider } from 'redux-meta'
+
+export default function App() {
+  return (
+    <ReDuxMetaProvider>
+      <View>
+        {/* Components here.. */}
+      </View>
+    </ReDuxMetaProvider>  
+  )
+}
 ```
 
 #### Modules
@@ -87,162 +111,152 @@ Modules can be an object or an array to register multiple modules at once.
 | --- | --- | --- |
 | object | true | Inside this are the functions that will interact with metaMutations |
 
-Module example for user:
+Module example (user.js):
 
 ```js
-{
-  metaModule: true,
-  name: 'user',
+export default () => {
+  // return the module here
+  return {
+    metaModule: true,
+    name: 'user',
 
-  metaStates: {
-    name: '',
-    address: ''
-  },
+    metaStates: {
+      name: '',
+      address: ''
+    },
 
-  metaMutations: {
-    SET_NAME: (state, { payload }) => {
-      state.name = payload
-    }
-  },
+    metaMutations: {
+      SET_NAME: (state, { payload }) => {
+        state.name = payload
+      }
+    },
 
-  metaActions: {
-    getAUser ({ commit }, params) {
-      const name = 'John Doe'
-      
-      commit('SET_NAME', name)
+    metaActions: {
+      getUser ({ commit }, params) {
+        const name = 'John Doe'
+        
+        commit('SET_NAME', name)
+      }
     }
   }
 }
 ```
 
-Supported class fucntions are listed below.
-
-#### Functions
+#### Class Functions
 
 `registerModules`
 
-This will initialize the states, mutations and actions insdie the module to be easily use in different components.
-
-`delay`
-
-| Type | Default value | Description |
-| --- | --- | --- |
-| number | 0 | Time in milliseconds |
-
-If present, the request will be delayed by the given amount of time
-
-Example:
-
-```tsx
-type Joke = {
-  value: {
-    id: number;
-    joke: string;
-  };
-};
-
-const MyComponent: React.FC = () => {
-  const { data, error, loading } = useBasicFetch<Joke>('https://api.icndb.com/jokes/random', 2000);
-
-  if (error) {
-    return <p>Error</p>;
-  }
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  return (
-    <div className="App">
-      <h2>Chuck Norris Joke of the day</h2>
-      {data && data.value && <p>{data.value.joke}</p>}
-    </div>
-  );
-};
-```
-
-### fetchData
+Function that will register all the modules. Example using the user module.
 
 ```js
-fetchData(url: string)
+const reduxMeta = new ReduxMeta()
+
+// register module
+reduxMeta.registerModules(user)
+
+// register multiple modules (user, work, ...)
+reduxMeta.registerModules([
+  user,
+  work
+])
 ```
 
-Perform an asynchronous http request against a given url
+`meta`
 
-```tsx
-type Joke = {
-  value: {
-    id: number;
-    joke: string;
-  };
-};
+This will return metaStates, metaMutions and metaActions functions. All functions has two arguments needed, the module name and the name of states, mutations or actions, it can be an array or an object to create aliases for the names.
 
-const ChuckNorrisJokes: React.FC = () => {
-  const { data, fetchData, error, loading } = useBasicFetch<Joke>();
-  const [jokeId, setJokeId] = useState(1);
+Example using the User module:
 
-  useEffect(() => {
-    fetchData(`https://api.icndb.com/jokes/${jokeId}`);
-  }, [jokeId, fetchData]);
+`metaStates`
 
-  const handleNext = () => setJokeId(jokeId + 1);
+```js
+const user = metaStates('user', [
+  'name',
+  'address'
+])
 
-  if (error) {
-    return <p>Error</p>;
+// use
+console.log(user.name, user.address)
+```
+
+Or initialize with aliases
+
+```js
+const info = metaStates('user', {
+  name: 'user_name',
+  address: 'user_address'
+})
+
+// use
+console.log(info.user_name, info.user_address)
+```
+
+`metaMutations`
+
+```js
+const user = metaMutations('user', [
+  'SET_NAME'
+])
+
+// use
+user.SET_NAME('John Doe')
+```
+
+Or initialize with aliases
+
+```js
+const user = metaMutations('user', {
+  SET_NAME: 'setName'
+})
+
+// use
+user.setName('John Doe')
+```
+
+`metaActions`
+
+```js
+const user = metaActions('user', [
+  'getUser'
+])
+
+// use
+user.getUser()
+```
+
+Or initialize with aliases
+
+```js
+const user = metaActions('user', {
+  getUser: 'get_user'
+})
+
+// use
+user.get_user()
+```
+
+Example in User|Work:
+
+```js
+function User () {
+  const { metaStates, metaMutations, metaActions } = reduxMeta.meta() // or using global.reduxMeta.meta()
+
+  // init meta
+  const meta = {
+    ...metaStates('user', {
+      name: 'user_name'
+    }),
+
+    ...metaStates('work', {
+      name: 'company_name'
+    })
   }
 
-  const jokeData = data && data.value;
-
   return (
-    <div className="Comments">
-      {loading && <p>Loading...</p>}
-      {!loading && jokeData && (
-        <div>
-          <p>Joke ID: {jokeData.id}</p>
-          <p>{jokeData.joke}</p>
-        </div>
-      )}
-      {!loading && jokeData && !jokeData.joke && <p>{jokeData}</p>}
-      <button disabled={loading} onClick={handleNext}>
-        Next Joke
-      </button>
-    </div>
-  );
-};
+    <View>
+      <Text>Hi, I'm { meta.user_name }.</Text>
+      <Text>I'm currently owrking here in { meta.company_name }.</Text>
+    </View>
+  )
+}
 ```
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
-1.  Fork it!
-2.  Create your feature branch: `git checkout -b my-new-feature`
-3.  Add your changes: `git add .`
-4.  Commit your changes: `git commit -am 'Add some feature'`
-5.  Push to the branch: `git push origin my-new-feature`
-6.  Submit a pull request :sunglasses:
-
-## Credits
-
-TODO: Write credits
-
-## Built With
-
-* Dropwizard - Bla bla bla
-* Maven - Maybe
-* Atom - ergaerga
-* Love
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
-
-## Authors
-
-* **John Doe** - *Initial work* - [JohnDoe](https://github.com/JohnDoe)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-[MIT License](https://andreasonny.mit-license.org/2019) © Andrea SonnY
