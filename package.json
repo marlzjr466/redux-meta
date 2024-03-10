@@ -7,12 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "redux",
     "redux-meta",
     "meta",
     "state handler",
-    "state",
-    "redux state"
+    "@opensource-dev",
+    "@opensource-dev/redux-meta"
   ],
   "author": "marlzjr15",
   "license": "MIT"

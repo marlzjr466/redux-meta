@@ -51,7 +51,7 @@ $ yarn add @opensource-dev/redux-meta
 
 Note: reduxMeta should be initialize once, you can initialize it globally
 ```js
-import { ReduxMeta } from 'redux-meta'
+import { ReduxMeta } from '@opensource-dev/redux-meta'
 
 const reduxMeta = new ReduxMeta()
 
@@ -64,7 +64,7 @@ const reduxMeta = new ReduxMeta()
 In your App.js, wrap your main view with ReduxMetaProvider to enable the registered modules.
 
 ```js
-import { ReduxMetaProvider } from 'redux-meta'
+import { ReduxMetaProvider } from '@opensource-dev/redux-meta'
 
 export default function App() {
   return (
