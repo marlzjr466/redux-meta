@@ -1,0 +1,12 @@
+{
+  "name": "redux-meta",
+  "version": "1.0.0",
+  "description": "A state handler for react and react native using the package `react-redux`",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["redux", "redux-meta", "meta", "state handler", "state", "redux state"],
+  "author": "marlzjr15",
+  "license": "MIT"
+}
