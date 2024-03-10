@@ -250,6 +250,8 @@ function User () {
     ...metaStates('work', {
       name: 'company_name'
     })
+
+    // initialize below the mapMutations and mapActions if needed
   }
 
   return (
