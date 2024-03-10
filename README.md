@@ -251,7 +251,7 @@ function User () {
       name: 'company_name'
     })
 
-    // initialize below the mapMutations and mapActions if needed
+    // initialize below the metaMutations and metaActions if needed
   }
 
   return (
