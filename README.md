@@ -1,4 +1,4 @@
-# Project Name
+# Redux Meta
 
 > A state handler for react and react native using the package `react-redux`
 
