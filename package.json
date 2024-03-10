@@ -1,6 +1,6 @@
 {
   "name": "@opensource-dev/redux-meta",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A state handler for react and react native using `react-redux`",
   "main": "index.js",
   "scripts": {
