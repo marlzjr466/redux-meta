@@ -1,7 +1,7 @@
 {
   "name": "redux-meta",
-  "version": "1.0.0",
-  "description": "A state handler for react and react native using the package `react-redux`",
+  "version": "0.0.1",
+  "description": "A state handler for react and react native using `react-redux`",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
