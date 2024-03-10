@@ -1,6 +1,6 @@
 # Redux Meta
 
-> A state handler for react and react native using the package `react-redux`
+> A state handler for react and react native using `react-redux` and `@reduxjs/toolkit`
 
 ## Prerequisites
 
