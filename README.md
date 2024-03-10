@@ -33,13 +33,13 @@ Or if you prefer using Yarn:
 $ yarn add @reduxjs/toolkit react-redux
 ```
 
-To install package:
+To install the package:
 
 ```sh
 $ npm install redux-meta
 ```
 
-Or if you prefer using Yarn:
+Or using Yarn:
 
 ```sh
 $ yarn add redux-meta
@@ -163,7 +163,7 @@ reduxMeta.registerModules([
 
 `meta`
 
-This will return metaStates, metaMutions and metaActions functions. All functions has two arguments needed, the module name and the name of states, mutations or actions, it can be an array or an object to create aliases for the names.
+This will return metaStates, metaMutations and metaActions functions. All functions has two arguments needed, the module name and the name of states, mutations or actions, it can be an array or an object to create aliases for the names.
 
 Example using the User module:
 
@@ -255,7 +255,7 @@ function User () {
   return (
     <View>
       <Text>Hi, I'm { meta.user_name }.</Text>
-      <Text>I'm currently owrking here in { meta.company_name }.</Text>
+      <Text>I'm currently working here in { meta.company_name }.</Text>
     </View>
   )
 }
