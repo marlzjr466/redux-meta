@@ -36,13 +36,13 @@ $ yarn add @reduxjs/toolkit react-redux
 To install the package:
 
 ```sh
-$ npm install redux-meta
+$ npm install @opensource-dev/redux-meta
 ```
 
 Or using Yarn:
 
 ```sh
-$ yarn add redux-meta
+$ yarn add @opensource-dev/redux-meta
 ```
 
 ## Usage
