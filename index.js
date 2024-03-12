@@ -9,6 +9,10 @@ export class ReduxMeta {
     this.actions = {}
   }
 
+  getProvider () {
+    return [Provider, store]
+  }
+
   registerModules (modules) {
     if (!Array.isArray(modules)) {
       modules = [modules]
