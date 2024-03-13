@@ -1,6 +1,6 @@
 # Redux Meta
 
-> A state handler for react native using `react-redux` and `@reduxjs/toolkit`
+> A state handler for react and react native using `react-redux` and `@reduxjs/toolkit`
 
 ## Getting Started
 
@@ -36,32 +36,46 @@ $ yarn add @opensource-dev/redux-meta
 
 ### ReduxMeta
 
-Note: reduxMeta should be initialize once, you can initialize it globally
+Note: reduxMeta should be initialize once in your root file and pass it as a prop or initialize it globally
 ```js
 import { ReduxMeta } from '@opensource-dev/redux-meta'
 
 const reduxMeta = new ReduxMeta()
-
+// Note: pass reduxMeta as props from your root component
 // or initialize globally
+// react native
 // global.reduxMeta = new ReduxMeta()
+
+// react
+// window.reduxMeta = new ReduxMeta()
 ```
 
 ### ReduxMetaProvider
 
-In your App.js, wrap your main view with ReduxMetaProvider to enable the registered modules.
+In your main.js/jsx for react and App.js for react native, wrap your component with ReduxMetaProvider to enable the registered modules.
 
 ```js
 import { ReduxMetaProvider } from '@opensource-dev/redux-meta'
 
+// react native (App.js)
 export default function App() {
   return (
     <ReDuxMetaProvider>
-      <View>
+      <View reduxMeta={reduxMeta}>
         {/* Components here.. */}
       </View>
     </ReDuxMetaProvider>  
   )
 }
+
+// react (main.js/jsx)
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <ReDuxMetaProvider>
+      <App reduxMeta={reduxMeta} />
+    </ReDuxMetaProvider>
+  </React.StrictMode>,
+)
 ```
 
 #### Modules
@@ -129,9 +143,9 @@ export default () => {
 }
 ```
 
-#### Class Functions
+#### Hooks
 
-`registerModules`
+`useModules`
 
 Function that will register all the modules. Example using the user module.
 
@@ -139,16 +153,16 @@ Function that will register all the modules. Example using the user module.
 const reduxMeta = new ReduxMeta()
 
 // register module
-reduxMeta.registerModules(user)
+reduxMeta.useModules(user)
 
 // register multiple modules (user, work, ...)
-reduxMeta.registerModules([
+reduxMeta.useModules([
   user,
   work
 ])
 ```
 
-`meta`
+`useMeta`
 
 This will return metaStates, metaMutations and metaActions functions. All functions has two arguments needed, the module name and the name of states, mutations or actions, it can be an array or an object to create aliases for the names.
 
@@ -225,8 +239,9 @@ user.get_user()
 Example in User|Work:
 
 ```js
-function User () {
-  const { metaStates, metaMutations, metaActions } = reduxMeta.meta() // or using global.reduxMeta.meta()
+function User ({ reduxMeta }) {
+  const { metaStates, metaMutations, metaActions } = reduxMeta.meta()
+  // or using global.reduxMeta.useMeta() | window.reduxMeta.useMeta()
 
   // init meta
   const meta = {

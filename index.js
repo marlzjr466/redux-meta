@@ -9,11 +9,7 @@ export class ReduxMeta {
     this.actions = {}
   }
 
-  getProvider () {
-    return [Provider, store]
-  }
-
-  registerModules (modules) {
+  useModules (modules) {
     if (!Array.isArray(modules)) {
       modules = [modules]
     }
@@ -54,7 +50,7 @@ export class ReduxMeta {
     })
   }
 
-  meta () {
+  useMeta () {
     const slice = this.slice
     const actions = this.actions
 
