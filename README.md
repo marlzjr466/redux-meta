@@ -88,11 +88,13 @@ Modules can be an object or an array to register multiple modules at once.
 | --- | --- | --- |
 | boolean | true | Redux meta module |
 
+
 `name`
 
 | Type | Required | Description |
 | --- | --- | --- |
 | string | true | Name of the module |
+
 
 `metaStates`
 
@@ -100,17 +102,20 @@ Modules can be an object or an array to register multiple modules at once.
 | --- | --- | --- |
 | object | true | States will be initialize here |
 
+
 `metaMutations`
 
 | Type | Required | Description |
 | --- | --- | --- |
 | object | true | Inside this are the functions that will mutate the states |
 
+
 `metaActions`
 
 | Type | Required | Description |
 | --- | --- | --- |
 | object | true | Inside this are the functions that will interact with metaMutations |
+
 
 Module example (user.js):
 
@@ -168,7 +173,7 @@ This will return metaStates, metaMutations and metaActions functions. All functi
 
 Example using the User module:
 
-`metaStates`
+metaStates
 
 ```js
 const user = metaStates('user', [
@@ -192,7 +197,7 @@ const info = metaStates('user', {
 console.log(info.user_name, info.user_address)
 ```
 
-`metaMutations`
+metaMutations
 
 ```js
 const user = metaMutations('user', [
@@ -214,7 +219,7 @@ const user = metaMutations('user', {
 user.setName('John Doe')
 ```
 
-`metaActions`
+metaActions
 
 ```js
 const user = metaActions('user', [
@@ -240,7 +245,7 @@ Example in User|Work:
 
 ```js
 function User ({ reduxMeta }) {
-  const { metaStates, metaMutations, metaActions } = reduxMeta.meta()
+  const { metaStates, metaMutations, metaActions } = reduxMeta.useMeta()
   // or using global.reduxMeta.useMeta() | window.reduxMeta.useMeta()
 
   // init meta
