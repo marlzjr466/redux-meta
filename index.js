@@ -62,7 +62,7 @@ export class ReduxMeta {
         // aliases
         if (!Array.isArray(states)) {
           for (const key in states) {
-            returnStates[states[key]] = useSelector(state => state[moduleName][key])
+            returnStates[[key]] = useSelector(state => state[moduleName][states[key]])
           }
       
           return returnStates
@@ -83,8 +83,8 @@ export class ReduxMeta {
         // aliases
         if (!Array.isArray(fns)) {
           for (const key in fns) {
-            returnMutations[fns[key]] = state => {
-              dispatch(slice[moduleName].actions[key](state))
+            returnMutations[key] = state => {
+              dispatch(slice[moduleName].actions[fns[key]](state))
             }
           }
 
@@ -105,6 +105,13 @@ export class ReduxMeta {
         const dispatch = useDispatch()
         const returnActions = {}
 
+        const modules = Object.keys(slice)
+        const rootStates = {}
+
+        for (const module of modules) {
+          rootStates[module] = useSelector(state => state[module])
+        }
+        
         // commit data to mutation
         function commit (mutation, data) {
           dispatch(slice[moduleName].actions[mutation](data))
@@ -113,8 +120,8 @@ export class ReduxMeta {
         // aliases
         if (!Array.isArray(fns)) {
           for (const key in fns) {
-            returnActions[fns[key]] = data => {
-              return actions[moduleName][key]({ commit }, data)
+            returnActions[key] = data => {
+              return actions[moduleName][fns[key]]({ commit, rootStates }, data)
             }
           }
 
@@ -123,7 +130,7 @@ export class ReduxMeta {
 
         for (const fn of fns) {
           returnActions[fn] = data => {
-            return actions[moduleName][fn]({ commit }, data)
+            return actions[moduleName][fn]({ commit, rootStates }, data)
           }
         }
       

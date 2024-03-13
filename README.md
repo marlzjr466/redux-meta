@@ -138,10 +138,14 @@ export default () => {
     },
 
     metaActions: {
-      getUser ({ commit }, params) {
+      getUser ({ commit, rootStates }, params) {
         const name = 'John Doe'
         
+        // commit function will mutate the state in mutations
         commit('SET_NAME', name)
+
+
+        // Note: rootStates are all states that being registered in every module
       }
     }
   }
@@ -189,8 +193,8 @@ Or initialize with aliases
 
 ```js
 const info = metaStates('user', {
-  name: 'user_name',
-  address: 'user_address'
+  user_name: 'name',
+  user_address: 'address'
 })
 
 // use
@@ -212,7 +216,7 @@ Or initialize with aliases
 
 ```js
 const user = metaMutations('user', {
-  SET_NAME: 'setName'
+  setName: 'SET_NAME'
 })
 
 // use
@@ -234,7 +238,7 @@ Or initialize with aliases
 
 ```js
 const user = metaActions('user', {
-  getUser: 'get_user'
+  get_user: 'getUser'
 })
 
 // use
@@ -251,11 +255,11 @@ function User ({ reduxMeta }) {
   // init meta
   const meta = {
     ...metaStates('user', {
-      name: 'user_name'
+      user_name: 'name'
     }),
 
     ...metaStates('work', {
-      name: 'company_name'
+      company_name: 'name'
     })
 
     // initialize below the metaMutations and metaActions if needed
