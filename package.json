@@ -2,14 +2,18 @@
   "name": "@opensource-dev/redux-meta",
   "version": "1.0.6",
   "description": "A state handler for react native using `react-redux`",
-  "main": "index.js",
+  "main": "./src/v1.0.7/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.2.1",
+    "react-redux": "^9.1.0"
+  },
   "keywords": [
-    "redux-meta",
     "meta",
-    "state handler",
+    "redux",
+    "redux-meta",
     "@opensource-dev",
     "@opensource-dev/redux-meta"
   ],
