@@ -26,7 +26,7 @@ Note: reduxMeta should be initialize once in your root file and pass it as a pro
 ```js
 import { ReduxMeta } from '@opensource-dev/redux-meta'
 
-// Note: pass reduxMeta as props from your root component
+// Note: you can pass reduxMeta as props from your root component
 const reduxMeta = new ReduxMeta()
 
 // or initialize globally
@@ -48,11 +48,11 @@ import { ReduxMetaProvider } from '@opensource-dev/redux-meta'
 // react native (App.js)
 export default function App() {
   return (
-    <ReDuxMetaProvider>
+    <ReduxMetaProvider>
       <View reduxMeta={reduxMeta}>
         {/* Components here.. */}
       </View>
-    </ReDuxMetaProvider>  
+    </ReduxMetaProvider>  
   )
 }
 
@@ -336,8 +336,10 @@ meta.getCompany()
 Example in User and Work module:
 
 ```js
-function User ({ reduxMeta }) {
-  const { metaStates, metaMutations, metaGetters, metaActions } = reduxMeta.useMeta()
+import { useMeta } from '@opensource-dev/redux-meta'
+
+function User () {
+  const { metaStates, metaMutations, metaGetters, metaActions } = useMeta()
   // or using global.reduxMeta.useMeta() or window.reduxMeta.useMeta()
 
   // init meta
