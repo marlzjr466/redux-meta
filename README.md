@@ -22,7 +22,7 @@ $ yarn add @opensource-dev/redux-meta
 
 ### ReduxMeta
 
-Note: reduxMeta should be initialize once in your root file and pass it as a prop or initialize it globally.
+Note: reduxMeta can be initialize in your root file and pass it as a prop or initialize it globally.
 ```js
 import { ReduxMeta } from '@opensource-dev/redux-meta'
 
@@ -49,7 +49,7 @@ import { ReduxMetaProvider } from '@opensource-dev/redux-meta'
 export default function App() {
   return (
     <ReduxMetaProvider>
-      <View reduxMeta={reduxMeta}>
+      <View>
         {/* Components here.. */}
       </View>
     </ReduxMetaProvider>  
@@ -60,7 +60,7 @@ export default function App() {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ReDuxMetaProvider>
-      <App reduxMeta={reduxMeta} />
+      <App/>
     </ReDuxMetaProvider>
   </React.StrictMode>,
 )
@@ -115,55 +115,52 @@ Modules can be an object or an array to register multiple modules at once.
 Module example (user.js):
 
 ```js
-export default () => {
-  // return the module here
-  return {
-    metaModule: true,
-    name: 'user',
+export default () => ({
+  metaModule: true,
+  name: 'user',
 
-    metaStates: {
-      name: '',
-      address: '',
-      gender: ''
-    },
+  metaStates: {
+    name: '',
+    address: '',
+    gender: ''
+  },
 
-    metaMutations: {
-      SET_NAME: (state, { payload }) => {
-        state.name = payload
-      }
-    },
+  metaMutations: {
+    SET_NAME: (state, { payload }) => {
+      state.name = payload
+    }
+  },
 
-    metaGetters: {
-      gender: (state) => {
-        return state.user.gender
-      }
-    },
+  metaGetters: {
+    gender: (state) => {
+      return state.user.gender
+    }
+  },
 
-    metaActions: {
-      getUser ({ commit, state, rootState, dispatch }, params) {
-        const name = 'John Doe'
-        
-        // commit function will mutate the state in mutations
-        commit('SET_NAME', name)
+  metaActions: {
+    getUser ({ commit, state, rootState, dispatch }, params) {
+      const name = 'John Doe'
+      
+      // commit function will mutate the state in mutations
+      commit('SET_NAME', name)
 
-        /*
-         * Note:
-         * `state`     - are all state stored within the module
-         * `rootState` - are all states registered in every module
-         * `dispatch`  - is a function that can execute actions that registerd in every module
-         *               it has an two arguments: 
-         *                - Object { module, action }
-         *                - data (any type)
-         * 
-         * examples:
-         * `state.name, state.address`
-         * `rootState.user.name or rootState.work.name`
-         * `dispatch({ module: 'user', action: 'getUser' }, data)
-         */
-      }
+      /*
+        * Note:
+        * `state`     - are all state stored within the module
+        * `rootState` - are all states registered in every module
+        * `dispatch`  - is a function that can execute actions that registerd in every module
+        *               it has an two arguments: 
+        *                - Object { module, action }
+        *                - data (any type)
+        * 
+        * examples:
+        * `state.name, state.address`
+        * `rootState.user.name or rootState.work.name`
+        * `dispatch({ module: 'user', action: 'getUser' }, data)
+        */
     }
   }
-}
+})
 ```
 
 ### Hooks
@@ -192,6 +189,13 @@ reduxMeta.useModules([
 `useMeta`
 
 This will return metaStates, metaMutations, metaGetters and metaActions functions. All functions has two arguments needed, the module name and the name of states, mutations, getters or actions, it can be an array or an object to create aliases for the names.
+
+```js
+import { ReduxMeta } from '@opensource-dev/redux-meta'
+
+const reduxMeta = new ReduxMeta()
+const { metaStates, metaMutations, MetaGetters, MetaActions } = reduxMeta.useMeta()
+```
 
 Example using the User module:
 
@@ -336,10 +340,11 @@ meta.getCompany()
 Example in User and Work module:
 
 ```js
-import { useMeta } from '@opensource-dev/redux-meta'
+import { ReduxMeta } from '@opensource-dev/redux-meta'
+const reduxMeta = new ReduxMeta()
 
 function User () {
-  const { metaStates, metaMutations, metaGetters, metaActions } = useMeta()
+  const { metaStates, metaMutations, metaGetters, metaActions } = reduxMeta.useMeta()
   // or using global.reduxMeta.useMeta() or window.reduxMeta.useMeta()
 
   // init meta
