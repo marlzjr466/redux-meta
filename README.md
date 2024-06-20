@@ -48,7 +48,7 @@ import { ReduxMetaProvider } from '@opensource-dev/redux-meta'
 // react native (App.js)
 export default function App() {
   return (
-    <ReduxMetaProvider>
+    <ReduxMetaProvider store={reduxMeta.store}>
       <View>
         {/* Components here.. */}
       </View>
@@ -191,10 +191,7 @@ reduxMeta.useModules([
 This will return metaStates, metaMutations, metaGetters and metaActions functions. All functions has two arguments needed, the module name and the name of states, mutations, getters or actions, it can be an array or an object to create aliases for the names.
 
 ```js
-import { ReduxMeta } from '@opensource-dev/redux-meta'
-
-const reduxMeta = new ReduxMeta()
-const { metaStates, metaMutations, MetaGetters, MetaActions } = reduxMeta.useMeta()
+const { metaStates, metaMutations, MetaGetters, MetaActions } = window.reduxMeta.useMeta()
 ```
 
 Example using the User module:
@@ -340,12 +337,9 @@ meta.getCompany()
 Example in User and Work module:
 
 ```js
-import { ReduxMeta } from '@opensource-dev/redux-meta'
-const reduxMeta = new ReduxMeta()
-
 function User () {
-  const { metaStates, metaMutations, metaGetters, metaActions } = reduxMeta.useMeta()
-  // or using global.reduxMeta.useMeta() or window.reduxMeta.useMeta()
+  const { metaStates, metaMutations, metaGetters, metaActions } = window.reduxMeta.useMeta()
+  // or using global.reduxMeta.useMeta() for react native
 
   // init meta
   const meta = {
