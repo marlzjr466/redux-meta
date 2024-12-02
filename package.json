@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "A state handler for react native using `react-redux`",
   "main": "./src/v2.0/index.js",
+  "types": "src/v2.0/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
